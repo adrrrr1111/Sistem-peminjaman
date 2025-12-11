@@ -3,8 +3,15 @@ FROM node:20 AS node_build
 WORKDIR /app
 COPY package*.json ./
 COPY vite.config.ts ./
-# Install PHP for vite-plugin-wayfinder
-RUN apt-get update && apt-get install -y php-cli php-xml
+COPY composer.json composer.lock ./
+
+# Install PHP and Composer for vite-plugin-wayfinder
+RUN apt-get update && apt-get install -y php-cli php-xml unzip
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Install PHP dependencies (needed for artisan command)
+RUN composer install --no-dev --no-scripts --no-progress --prefer-dist
+
 RUN npm ci
 COPY resources ./resources
 COPY public ./public
