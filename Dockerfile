@@ -45,10 +45,10 @@ COPY --from=node_build /app/public/build ./public/build
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Fix permissions
-RUN chown -R webuser:webuser /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Switch back to non-root user
-USER webuser
+USER www-data
 
 # Expose port
 EXPOSE 8080
