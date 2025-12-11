@@ -3,6 +3,8 @@ FROM node:20 AS node_build
 WORKDIR /app
 COPY package*.json ./
 COPY vite.config.ts ./
+# Install PHP for vite-plugin-wayfinder
+RUN apt-get update && apt-get install -y php-cli php-xml
 RUN npm ci
 COPY resources ./resources
 COPY public ./public
