@@ -47,6 +47,10 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 # Fix permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
+# Copy deployment script to auto-run on startup
+COPY deployment.sh /etc/entrypoint.d/99-deploy.sh
+RUN chmod +x /etc/entrypoint.d/99-deploy.sh
+
 # Switch back to non-root user
 USER www-data
 

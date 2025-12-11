@@ -21,4 +21,4 @@ php artisan view:cache
 # For serversideup/php, the default CMD starts s6.
 # We can just put our optimization commands here and then exec the CMD.
 
-exec /init
+# Script finished, environment is ready.
