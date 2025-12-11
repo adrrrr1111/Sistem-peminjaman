@@ -1,35 +1,39 @@
 # Build Stage: Compile Frontend Assets
-FROM node:20 AS node_build
+# Use PHP 8.4 CLI as base to match dependency requirements
+FROM serversideup/php:8.4-cli AS node_build
+
 WORKDIR /app
+
+# Switch to root to install Node.js
+USER root
+
+# Install Node.js 20 and unzip
+RUN apt-get update && \
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs unzip
+
 COPY package*.json ./
 COPY vite.config.ts ./
 COPY composer.json composer.lock ./
 
-# Install PHP and Composer for vite-plugin-wayfinder
-RUN apt-get update && apt-get install -y php-cli php-xml unzip
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Install PHP dependencies (needed for artisan command)
+# Install Composer dependencies
+# We use the composer installed in the image
 RUN composer install --no-dev --no-scripts --no-progress --prefer-dist
 
 RUN npm ci
 COPY resources ./resources
 COPY public ./public
-# Copy other necessary files for build if referenced in vite config
 COPY . . 
 RUN npm run build
 
 # Production Stage: PHP & Nginx
-FROM serversideup/php:8.2-fpm-nginx
+FROM serversideup/php:8.4-fpm-nginx
 
 # Set working directory
 WORKDIR /var/www/html
 
 # Switch to root to install dependencies and modify permissions
 USER root
-
-# Install system dependencies if needed (e.g. for specific PHP extensions)
-# The base image already has most common extensions
 
 # Copy project files
 COPY . .
@@ -46,5 +50,5 @@ RUN chown -R webuser:webuser /var/www/html/storage /var/www/html/bootstrap/cache
 # Switch back to non-root user
 USER webuser
 
-# Expose port (Render sets PORT env var, serversideup image listens on 8080 by default but can be configured)
+# Expose port
 EXPOSE 8080
