@@ -74,10 +74,10 @@ export default function Welcome({ itemsCount }: { itemsCount: number }) {
                             </h1>
 
                             <p className="max-w-lg text-xl leading-relaxed text-gray-400">
-                                Sistem inventaris generasi berikutnya. Pelacakan
-                                waktu nyata, integrasi kode QR, dan alur kerja
-                                peminjaman yang lancar. Dirancang untuk
-                                kecepatan dan keandalan.
+                                Sistem inventaris dengan real time tracking,
+                                integrasi kode QR, dan alur kerja peminjaman
+                                mudah dimengerti. Dirancang untuk kecepatan dan
+                                kemudahan pengguna.
                             </p>
 
                             <div className="flex flex-row gap-4">
