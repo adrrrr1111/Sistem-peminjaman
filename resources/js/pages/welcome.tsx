@@ -85,14 +85,14 @@ export default function Welcome({ itemsCount }: { itemsCount: number }) {
                                     href={register()}
                                     className="flex h-12 items-center gap-2 rounded-full bg-white px-8 font-bold text-black transition-transform hover:scale-105"
                                 >
-                                    Start Borrowing
+                                    Register
                                     <ArrowRight className="h-4 w-4" />
                                 </Link>
                                 <Link
                                     href={login()}
                                     className="flex h-12 items-center rounded-full border border-white/20 px-8 font-medium transition-colors hover:bg-white/10"
                                 >
-                                    Documentation
+                                    Log in
                                 </Link>
                             </div>
                         </div>
